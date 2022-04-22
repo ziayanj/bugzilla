@@ -1,0 +1,16 @@
+<%= form_with(model: [ @project, @project.bugs.build ], local: true) do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+  <p>
+    <%= form.label :description %><br>
+    <%= form.text_field :description %>
+  </p>
+
+  <%= form.hidden_field :qa_id, value: current_user.id %>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

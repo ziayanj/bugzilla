@@ -10,6 +10,17 @@
   </head>
 
   <body>
+    <%= link_to 'Home', root_path %>
+    <%= link_to 'New Project', new_project_path %>
+
+    <% if user_signed_in? %>
+      Logged in as <strong><%= current_user.email %></strong>.
+      <%= link_to 'Edit Profile', edit_user_registration_path %> |
+      <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Log in', new_user_session_path %> |
+      Don't have an account? <%= link_to 'Sign up', new_user_registration_path %>.
+    <% end %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>

@@ -1,0 +1,15 @@
+<p>
+  <strong>Title: </strong>
+  <%= @bug.title %>
+</p>
+
+<p>
+  <strong>Description: </strong>
+  <%= @bug.description %>
+</p>
+
+<p>
+  <%= link_to 'Delete Bug', [@bug.project, @bug],
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %>
+</p>

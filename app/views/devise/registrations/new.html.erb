@@ -26,6 +26,14 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%= f.select(:type) do %>
+      <% [['Manager', 'Manager'], ['Developer', 'Developer'], ['QA', 'Qa']].each do |c| -%>
+        <%= content_tag(:option, c.first, value: c.last) %>
+      <% end %>
+    <% end %>
+  </div>
+  
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

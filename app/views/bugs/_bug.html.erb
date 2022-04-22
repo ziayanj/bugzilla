@@ -1,0 +1,14 @@
+<p>
+  <strong>Bug: </strong>
+  <%= bug.title %>
+</p>
+
+<p>
+  <%= link_to 'Details', project_bug_path(bug.project, bug) %>
+</p>
+
+<p>
+  <%= link_to 'Delete Bug', [bug.project, bug],
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %>
+</p>
