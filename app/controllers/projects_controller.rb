@@ -18,11 +18,13 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
+    authorize Project.find(params[:id])
   end
 
   # POST /projects or /projects.json
   def create
     @manager = User.find(current_user.id)
+    authorize Project
     @project = @manager.projects.new(project_params)
 
     respond_to do |format|
@@ -51,6 +53,7 @@ class ProjectsController < ApplicationController
 
   # DELETE /projects/1 or /projects/1.json
   def destroy
+    authorize Project.find(params[:id])
     @project.destroy
 
     respond_to do |format|

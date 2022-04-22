@@ -6,7 +6,15 @@ class ProjectPolicy < ApplicationPolicy
     # end
   end
 
-  def index?
-    true
+  def create?
+    user.type == "Manager"
+  end
+
+  def edit?
+    user.type == "Manager" and record.manager == user
+  end
+
+  def destroy?
+    user.type == "Manager" and record.manager == user
   end
 end
