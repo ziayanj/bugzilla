@@ -2,7 +2,7 @@ class BugsController < ApplicationController
   before_action :set_project, only: %i[create destroy]
 
   def create
-    @bug = @project.bugs.create(bug_params)
+    @bug = Bug.create(creator: current_user, project: @project)
     redirect_to project_path(@project)
 
     # respond_to do |format|
@@ -23,7 +23,6 @@ class BugsController < ApplicationController
   end
 
   def show
-    @bug = Bug.find(params[:id])
   end
 
   private
@@ -33,6 +32,6 @@ class BugsController < ApplicationController
   end
 
   def bug_params
-    params.require(:bug).permit(:title, :description, :qa_id)
+    params.require(:bug).permit(:title, :description)
   end
 end
