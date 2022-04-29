@@ -1,6 +1,5 @@
 class ProjectPolicy < ApplicationPolicy
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
       if !user
         scope.all
@@ -13,14 +12,14 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def create?
-    user.type == "Manager"
+    user.type == 'Manager'
   end
 
   def edit?
-    user.type == "Manager" and record.manager == user
+    user.type == 'Manager' and record.manager == user
   end
 
   def destroy?
-    user.type == "Manager" and record.manager == user
+    user.type == 'Manager' and record.manager == user
   end
 end

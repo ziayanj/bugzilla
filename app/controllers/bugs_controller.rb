@@ -2,6 +2,7 @@ class BugsController < ApplicationController
   before_action :set_project, only: %i[create destroy]
 
   def create
+    authorize Bug
     @bug = Bug.create(creator: current_user, project: @project)
     redirect_to project_path(@project)
 
@@ -17,6 +18,7 @@ class BugsController < ApplicationController
   end
 
   def destroy
+    authorize Bug
     @bug = @project.bugs.find(params[:id])
     @bug.destroy
     redirect_to project_path(@project)
