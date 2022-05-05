@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[show edit update destroy]
+  before_action :set_project, only: %i[show edit update destroy add_user remove_user]
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /projects or /projects.json
@@ -59,6 +59,36 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def add_user
+    user = User.find(params[:user])
+
+    case user.type
+    when 'Developer'
+      @project.developers << user
+    when 'Qa'
+      @project.qas << user
+    end
+
+    respond_to do |format|
+      format.js { render js: 'window.top.location.reload(true);' }
+    end
+  end
+
+  def remove_user
+    user = User.find(params[:user])
+
+    case user.type
+    when 'Developer'
+      @project.developers.destroy(user)
+    when 'Qa'
+      @project.qas.destroy(user)
+    end
+
+    respond_to do |format|
+      format.js { render js: 'window.top.location.reload(true);' }
     end
   end
 

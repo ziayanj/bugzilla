@@ -25,6 +25,7 @@ class BugsController < ApplicationController
   end
 
   def show
+    @bug = Bug.find(params[:id])
   end
 
   private
