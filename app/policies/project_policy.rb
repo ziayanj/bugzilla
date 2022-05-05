@@ -22,4 +22,12 @@ class ProjectPolicy < ApplicationPolicy
   def destroy?
     user.type == 'Manager' and record.manager == user
   end
+
+  def add_user?
+    user.type == 'Manager' and record.manager == user
+  end
+
+  def remove_user?
+    user.type == 'Manager' and record.manager == user
+  end
 end

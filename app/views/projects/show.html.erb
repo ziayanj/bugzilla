@@ -14,12 +14,13 @@
 <h2>QAs</h2>
 <%= render partial: "users/user", collection: @project.qas %>
 
-<h2>Add Developers and QAs</h2>
-<%= render partial: "users/add", collection: @project.addable_users(current_user) %>
+<% if @project.manager == current_user %>
+  <h2>Add Developers and QAs</h2>
+  <%= render partial: "users/add", collection: @project.addable_users(current_user) %>
 
-<h2>Remove Developers and QAs</h2>
-<%= render partial: "users/remove", collection: @project.removable_users(current_user) %>
-
+  <h2>Remove Developers and QAs</h2>
+  <%= render partial: "users/remove", collection: @project.removable_users(current_user) %>
+<% end %>
 
 <h2>Report a bug:</h2>
 <%= render 'bugs/form' %>

@@ -63,6 +63,7 @@ class ProjectsController < ApplicationController
   end
 
   def add_user
+    authorize @project
     user = User.find(params[:user])
 
     case user.type
@@ -78,6 +79,7 @@ class ProjectsController < ApplicationController
   end
 
   def remove_user
+    authorize @project
     user = User.find(params[:user])
 
     case user.type
