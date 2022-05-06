@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root to: 'projects#index'
   resources :projects do
-    resources :bugs
+    resources :bugs do
+      get 'assign', on: :member
+    end
     member do
       get 'add_user'
       get 'remove_user'

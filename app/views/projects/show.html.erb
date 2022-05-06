@@ -6,7 +6,7 @@
 </p>
 
 <h2>Bugs</h2>
-<%= render @project.bugs %>
+<%= render @project.bugs.order("created_at") %>
 
 <h2>Developers</h2>
 <%= render partial: "users/user", collection: @project.developers %>
@@ -22,8 +22,10 @@
   <%= render partial: "users/remove", collection: @project.removable_users(current_user) %>
 <% end %>
 
-<h2>Report a bug:</h2>
-<%= render 'bugs/form' %>
+<% if current_user.type == 'Qa' %>
+  <h2>Report a bug:</h2>
+  <%= render 'bugs/form' %>
+<% end %>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

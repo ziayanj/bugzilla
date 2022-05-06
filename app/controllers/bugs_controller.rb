@@ -3,7 +3,10 @@ class BugsController < ApplicationController
 
   def create
     authorize Bug
-    @bug = Bug.create(creator: current_user, project: @project)
+    @bug = Bug.new(bug_params)
+    @bug.creator = current_user
+    @bug.project = @project
+    @bug.save
     redirect_to project_path(@project)
 
     # respond_to do |format|
@@ -26,6 +29,19 @@ class BugsController < ApplicationController
 
   def show
     @bug = Bug.find(params[:id])
+  end
+
+  def assign
+    @project = Project.find(params[:project_id])
+    @bug = @project.bugs.find(params[:id])
+
+    if @bug.developer.nil?
+      @bug.update_attributes(developer_id: current_user.id)
+    end
+
+    respond_to do |format|
+      format.js { render js: 'window.top.location.reload(true);' }
+    end
   end
 
   private

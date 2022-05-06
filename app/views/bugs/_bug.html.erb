@@ -12,3 +12,13 @@
               method: :delete,
               data: { confirm: 'Are you sure?' } %>
 </p>
+
+<% if @project.developers.include? current_user %>
+  <% if bug.developer != nil %>
+    <span>Assigned to <%= bug.developer.name %></span>
+  <% else %>
+    <%= link_to assign_project_bug_path(bug.project, bug), remote: true do %>
+      <button>Assign Bug</button>
+    <% end %>
+  <% end %>
+<% end %>
