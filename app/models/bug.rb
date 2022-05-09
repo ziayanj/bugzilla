@@ -10,7 +10,11 @@ class TitleValidator < ActiveModel::EachValidator
 end
 
 class Bug < ApplicationRecord
+  enum category: %i[feature bug]
+  enum status: %i[created started completed resolved]
+
   validates :title, title: true
+  validates :title, :deadline, :category, :status, presence: true
 
   belongs_to :creator, class_name: "Qa", foreign_key: 'qa_id'
   belongs_to :developer, optional: true

@@ -56,6 +56,9 @@ gem 'devise'
 # Authorization
 gem 'pundit'
 
+# Rubocop
+gem 'rubocop-rails', require: false
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
