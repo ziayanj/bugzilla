@@ -9,6 +9,27 @@
 </p>
 
 <p>
+  <strong>Deadline: </strong>
+  <%= @bug.deadline %>
+</p>
+
+<p>
+  <strong>Type: </strong>
+  <%= @bug.category.humanize %>
+</p>
+
+<p>
+  <strong>Status: </strong>
+  <%= @bug.status.humanize %>
+</p>
+
+<p>
+  <% if @bug.screenshot.attached? %>
+    <%= cl_image_tag(@bug.screenshot.key, width: 300, height: 200, crop: :scale) %>
+  <% end %>
+</p>
+
+<p>
   <%= link_to 'Delete Bug', [@bug.project, @bug],
               method: :delete,
               data: { confirm: 'Are you sure?' } %>

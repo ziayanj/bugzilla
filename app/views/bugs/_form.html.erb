@@ -13,6 +13,7 @@
   </p>
 
   <p>
+    Type:
     <%= form.radio_button :category, :feature %> 
     <%= form.label :category, 'Feature', value: :feature %>
     <%= form.radio_button :category, :bug %>
@@ -20,8 +21,13 @@
   </p>
 
   <p>
-  <%= form.label :status %><br>
+    <%= form.label :status %>:
     <%= form.select :status, Bug.statuses.map { |key, value| [key.humanize, key] } %>
+  </p>
+  
+  <p>
+    <%= form.label :screenshot %>:
+    <%= form.file_field :screenshot, direct_upload: true %>
   </p>
    
   <p>

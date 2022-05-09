@@ -6,7 +6,7 @@ class BugsController < ApplicationController
     @bug = Bug.new(bug_params)
     @bug.creator = current_user
     @bug.project = @project
-    @bug.save
+    @bug.save!
     redirect_to project_path(@project)
 
     # respond_to do |format|
@@ -51,6 +51,6 @@ class BugsController < ApplicationController
   end
 
   def bug_params
-    params.require(:bug).permit(:title, :description, :deadline, :category, :status)
+    params.require(:bug).permit(:title, :description, :deadline, :category, :status, :screenshot)
   end
 end
