@@ -15,10 +15,11 @@
 
 <% if @project.developers.include? current_user %>
   <% if bug.developer != nil %>
-    <span>Assigned to <%= bug.developer.name %></span>
+    <div>Assigned to <%= bug.developer.name %></div>
   <% else %>
     <%= link_to assign_project_bug_path(bug.project, bug), remote: true do %>
-      <button>Assign Bug</button>
+      <div><button>Assign Bug</button></div>
     <% end %>
   <% end %>
 <% end %>
+<br />

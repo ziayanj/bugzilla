@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 document.addEventListener "turbolinks:load", () ->
-  if !document.querySelector('.projects.show')
+  if !document.querySelector('.bugs.new')
     return
     
   document.querySelector('#bug_status').parentNode.style.display = 'none'

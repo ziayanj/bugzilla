@@ -6,8 +6,19 @@ class BugsController < ApplicationController
     @bug = Bug.new(bug_params)
     @bug.creator = current_user
     @bug.project = @project
-    @bug.save!
-    redirect_to project_path(@project)
+    @bug.save
+    # redirect_to project_path(@project)
+
+    respond_to do |format|
+      if @bug.save
+        format.html { redirect_to project_url(@project), notice: "Bug was successfully reported." }
+        format.json { render :show, status: :created, location: @project }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @bug.errors, status: :unprocessable_entity }
+        # redirect_to new_project_bug_path(@project, @bug)
+      end
+    end
 
     # respond_to do |format|
     #   if @project.save
@@ -31,12 +42,17 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
   end
 
+  def new
+    @bug = Bug.new
+    @project = Project.find(params[:project_id])
+  end
+
   def assign
     @project = Project.find(params[:project_id])
     @bug = @project.bugs.find(params[:id])
 
     if @bug.developer.nil?
-      @bug.update_attributes(developer_id: current_user.id)
+      @bug.update!(developer_id: current_user.id)
     end
 
     respond_to do |format|

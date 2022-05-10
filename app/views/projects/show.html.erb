@@ -1,30 +1,34 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<h2>
   <strong>Title:</strong>
   <%= @project.title %>
-</p>
+</h2>
 
 <h2>Bugs</h2>
 <%= render @project.bugs.order("created_at") %>
 
 <h2>Developers</h2>
-<%= render partial: "users/user", collection: @project.developers %>
+<%= render(partial: "users/user", collection: @project.developers, spacer_template: "spacer") || 'Project has no developers<br />'.html_safe %>
+<br />
 
 <h2>QAs</h2>
-<%= render partial: "users/user", collection: @project.qas %>
+<%= render(partial: "users/user", collection: @project.qas, spacer_template: "spacer") || 'Project has no QAs<br />'.html_safe %>
+<br />
 
 <% if @project.manager == current_user %>
   <h2>Add Developers and QAs</h2>
-  <%= render partial: "users/add", collection: @project.addable_users(current_user) %>
+  <%= render(partial: "users/add", collection: @project.addable_users(current_user), spacer_template: "spacer") || 'No Developers/QAs to add<br />'.html_safe %>
+  <br />
 
   <h2>Remove Developers and QAs</h2>
-  <%= render partial: "users/remove", collection: @project.removable_users(current_user) %>
+  <%= render(partial: "users/remove", collection: @project.removable_users(current_user), spacer_template: "spacer") || 'No Developers/QAs to remove<br />'.html_safe %>
+  <br />
+
 <% end %>
 
 <% if current_user.type == 'Qa' %>
-  <h2>Report a bug:</h2>
-  <%= render 'bugs/form' %>
+  <h2><%= link_to 'Report a bug', new_project_bug_path(@project) %></h2>
 <% end %>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
