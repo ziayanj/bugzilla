@@ -1,27 +1,17 @@
 <%= form_with(model: [ project, bug ], local: true) do |form| %>
-  <% if bug.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+  <%= render "validation", object: bug %>
 
-      <ul>
-      <% bug.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
   <p>
-    <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
   </p>
   <p>
-    <%= form.label :deadline %>
-    <%= form.datetime_select :deadline %>
+    <%= form.label :description %>
+    <%= form.text_area :description, size: '20x8', class: "form-control" %>
+  </p>
+  <p>
+    <%= form.label :deadline %>:
+    <%= form.datetime_select :deadline, class: "form-control" %>
   </p>
 
   <div class="no-scaffold">
@@ -30,7 +20,7 @@
     <%= form.label :category, 'Feature', value: :feature %>
     <%= form.radio_button :category, :bug %>
     <%= form.label :category, 'Bug', value: :bug %>
-  </div>
+  </div><br />
 
   <p>
     <%= form.label :status %>
@@ -42,9 +32,7 @@
     <%= form.file_field :screenshot, direct_upload: true %>
   </p><br />
    
-  <p>
-    <%= form.submit %>
-  </p>
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-md btn-dark" %>
+  </div>
 <% end %>
-
-

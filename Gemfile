@@ -62,6 +62,9 @@ gem 'cloudinary'
 # Rubocop
 gem 'rubocop-rails', require: false
 
+# Bootstrap
+gem 'bootstrap', '~> 5.1.3'
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'

@@ -1,43 +1,29 @@
-<h2>Sign up</h2>
+<div class="text-center">
+  <main class="form-auth">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.text_field :name, autofocus: true, class: "form-control", placeholder: "Name", autocomplete: "name" %>
+      <%= f.email_field :email, class: "form-control", placeholder: "Email address", autocomplete: "email" %>
+      <%= f.password_field :password, class: "form-control", placeholder: "Password (6 characters min)", autocomplete: "new-password" %>
+      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Password confirmation", autocomplete: "new-password" %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
-  </div>
+      <div class="form-floating">
+        Type:
+        <%= f.select(:type) do %>
+          <% [['Manager', 'Manager'], ['Developer', 'Developer'], ['QA', 'Qa']].each do |c| -%>
+            <%= content_tag(:option, c.first, value: c.last) %>
+          <% end %>
+        <% end %>
+      </div><br />
 
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    Type:
-    <%= f.select(:type) do %>
-      <% [['Manager', 'Manager'], ['Developer', 'Developer'], ['QA', 'Qa']].each do |c| -%>
-        <%= content_tag(:option, c.first, value: c.last) %>
-      <% end %>
+      <div class="actions">
+        <%= f.submit "Sign up", class: "w-100 btn btn-lg btn-dark" %>
+      </div>
     <% end %>
-  </div>
-  
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+    <%= render "devise/shared/links" %>
+  </main>
+</div>

@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   root to: 'projects#index'
   resources :projects do
     resources :bugs do
-      get 'assign', on: :member
+      member do
+        get 'assign'
+        get 'resolve'
+      end
     end
     member do
       get 'add_user'

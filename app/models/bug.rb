@@ -21,6 +21,15 @@ class Bug < ApplicationRecord
   belongs_to :developer, optional: true
   belongs_to :project
   has_one_attached :screenshot
+  
+  def resolvable
+    case category
+    when 'feature'
+      status != 'completed'
+    when 'bug'
+      status != 'resolved'
+    end
+  end
 
   private
 
@@ -28,6 +37,6 @@ class Bug < ApplicationRecord
     return if screenshot.content_type.in?(%w[image/png image/gif])
 
     screenshot.purge
-    errors.add(:screenshot, 'Screenshot can only be either .png or .gif image')
+    errors.add(:screenshot, 'can only be either .png or .gif image')
   end
 end

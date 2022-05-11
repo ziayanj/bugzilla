@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_09_143503) do
+ActiveRecord::Schema.define(version: 2022_05_11_174024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2022_05_09_143503) do
 
   create_table "bugs", force: :cascade do |t|
     t.string "title"
-    t.string "description"
+    t.text "description"
     t.bigint "qa_id"
     t.bigint "developer_id"
     t.bigint "project_id"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2022_05_09_143503) do
     t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
   end
 

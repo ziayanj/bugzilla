@@ -1,10 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy add_user remove_user]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index]
 
   # GET /projects or /projects.json
   def index
-    @projects = policy_scope(Project)
+    @projects = policy_scope(Project).order("created_at")
   end
 
   # GET /projects/1 or /projects/1.json
@@ -103,6 +103,6 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:title)
+    params.require(:project).permit(:title, :description)
   end
 end

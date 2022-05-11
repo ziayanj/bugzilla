@@ -1,10 +1,10 @@
-<%= render partial: "users/user", object: add %>
-<p>
-  <strong>Type: </strong>
-  <%= add.type %>
-</p>
-
-<%= link_to add_user_project_path(@project, user: add), remote: true do %>
-  <div><button>Add to Project</button></div>
-<% end %>
-
+<tr>
+  <td><%= add.name %> </td>
+  <td><%= add.email %></td>
+  <td><%= add.type %></td>
+  <td>
+    <%= link_to add_user_project_path(@project, user: add), remote: true do %>
+      <button>Add to Project</button>
+    <% end %>
+  </td>
+</tr>

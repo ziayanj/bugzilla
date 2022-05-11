@@ -1,39 +1,27 @@
 class BugsController < ApplicationController
-  before_action :set_project, only: %i[create destroy]
+  before_action :set_project, only: %i[create destroy new edit]
 
   def create
     authorize Bug
     @bug = Bug.new(bug_params)
     @bug.creator = current_user
     @bug.project = @project
-    @bug.save
     # redirect_to project_path(@project)
 
     respond_to do |format|
       if @bug.save
-        format.html { redirect_to project_url(@project), notice: "Bug was successfully reported." }
+        format.html { redirect_to project_url(@project), notice: 'Bug was successfully reported.' }
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @bug.errors, status: :unprocessable_entity }
-        # redirect_to new_project_bug_path(@project, @bug)
       end
     end
-
-    # respond_to do |format|
-    #   if @project.save
-    #     format.html { redirect_to project_url(@project), notice: "Project was successfully created." }
-    #     format.json { render :show, status: :created, location: @project }
-    #   else
-    #     format.html { render :new, status: :unprocessable_entity }
-    #     format.json { render json: @project.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   def destroy
-    authorize Bug
     @bug = @project.bugs.find(params[:id])
+    authorize @bug
     @bug.destroy
     redirect_to project_path(@project)
   end
@@ -44,7 +32,11 @@ class BugsController < ApplicationController
 
   def new
     @bug = Bug.new
-    @project = Project.find(params[:project_id])
+  end
+
+  def edit
+    @bug = @project.bugs.find(params[:id])
+    authorize @bug
   end
 
   def assign
@@ -53,6 +45,21 @@ class BugsController < ApplicationController
 
     if @bug.developer.nil?
       @bug.update!(developer_id: current_user.id)
+    end
+
+    respond_to do |format|
+      format.js { render js: 'window.top.location.reload(true);' }
+    end
+  end
+
+  def resolve
+    @project = Project.find(params[:project_id])
+    @bug = @project.bugs.find(params[:id])
+
+    if @bug.category == 'bug' && @bug.status != 'resolved'
+      @bug.resolved!
+    elsif @bug.category == 'feature' && @bug.status != 'completed'
+      @bug.completed!
     end
 
     respond_to do |format|

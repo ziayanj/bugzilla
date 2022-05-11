@@ -1,35 +1,99 @@
-<p id="notice"><%= notice %></p>
+<main class="container">
+  <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 fst-italic"><%= @project.title %></h1>
+      <p class="lead my-3"><%= @project.description %></p>
+    </div>
+  </div>
 
-<h2>
-  <strong>Title:</strong>
-  <%= @project.title %>
-</h2>
+  <h2>Bugs</h2>
+  <div class="row mb-2">
+    <%= render(@project.bugs.order("created_at")) || '<p>Project has no bugs</p>'.html_safe %> 
+  </div>
 
-<h2>Bugs</h2>
-<%= render @project.bugs.order("created_at") %>
 
-<h2>Developers</h2>
-<%= render(partial: "users/user", collection: @project.developers, spacer_template: "spacer") || 'Project has no developers<br />'.html_safe %>
-<br />
+  <h2>Developers</h2> 
+  <% unless @project.developers.empty? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(partial: "users/user", collection: @project.developers) %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Project has no developers</p>
+  <% end %>
 
-<h2>QAs</h2>
-<%= render(partial: "users/user", collection: @project.qas, spacer_template: "spacer") || 'Project has no QAs<br />'.html_safe %>
-<br />
+  <h2>QAs</h2> 
+  <% unless @project.qas.empty? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(partial: "users/user", collection: @project.qas) %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Project has no QAs</p>
+  <% end %>
 
-<% if @project.manager == current_user %>
-  <h2>Add Developers and QAs</h2>
-  <%= render(partial: "users/add", collection: @project.addable_users(current_user), spacer_template: "spacer") || 'No Developers/QAs to add<br />'.html_safe %>
-  <br />
+  <% if @project.manager == current_user %>
+    <h2>Add Developers and QAs</h2>
+    <% unless @project.addable_users(current_user).empty? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Add to Project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render(partial: "users/add", collection: @project.addable_users(current_user)) %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No Developers/QAs to add</p>
+    <% end %>
+    
+    
+    
+    <h2>Remove Developers and QAs</h2>
+    <% unless @project.removable_users(current_user).empty? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Remove from Project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render(partial: "users/remove", collection: @project.removable_users(current_user)) %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No Developers/QAs to remove</p>
+    <% end %>
+  <% end %>
 
-  <h2>Remove Developers and QAs</h2>
-  <%= render(partial: "users/remove", collection: @project.removable_users(current_user), spacer_template: "spacer") || 'No Developers/QAs to remove<br />'.html_safe %>
-  <br />
+  <% if current_user.type == 'Qa' %>
+    <h2><%= link_to 'Report a bug', new_project_bug_path(@project) %></h2>
+  <% end %>
 
-<% end %>
-
-<% if current_user.type == 'Qa' %>
-  <h2><%= link_to 'Report a bug', new_project_bug_path(@project) %></h2>
-<% end %>
-
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+  <% if @project.manager == current_user %>
+    <%= link_to 'Edit Project', edit_project_path(@project), class: "streched-link" %> | 
+    <%= link_to 'Destroy Project', @project, method: :delete, data: { confirm: 'Are you sure?' }, class: "streched-link" %>
+  <% end %>
+</main>
