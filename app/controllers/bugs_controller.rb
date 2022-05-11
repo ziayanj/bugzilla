@@ -43,9 +43,7 @@ class BugsController < ApplicationController
     @project = Project.find(params[:project_id])
     @bug = @project.bugs.find(params[:id])
 
-    if @bug.developer.nil?
-      @bug.update!(developer_id: current_user.id)
-    end
+    @bug.update!(developer_id: current_user.id) if @bug.developer.nil?
 
     respond_to do |format|
       format.js { render js: 'window.top.location.reload(true);' }

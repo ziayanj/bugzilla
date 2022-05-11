@@ -12,11 +12,19 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
     - 'bin/**/*'
+    - 'db/migrate/*'
+    - 'config/**/*'
 
 Layout/LineLength:
   Max: 120
   
 Metrics/MethodLength:
+  Max: 23
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/AbcSize:
   Max: 23
 
 # Metrics/BlockLength:

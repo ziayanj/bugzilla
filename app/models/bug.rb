@@ -17,11 +17,11 @@ class Bug < ApplicationRecord
   validates :title, :deadline, :category, :status, presence: true
   validate :image_type, if: -> { screenshot.attached? }
 
-  belongs_to :creator, class_name: 'Qa', foreign_key: 'qa_id'
+  belongs_to :creator, class_name: 'Qa', foreign_key: 'qa_id', inverse_of: :bugs
   belongs_to :developer, optional: true
   belongs_to :project
   has_one_attached :screenshot
-  
+
   def resolvable
     case category
     when 'feature'
