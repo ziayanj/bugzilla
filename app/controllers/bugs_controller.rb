@@ -1,5 +1,6 @@
 class BugsController < ApplicationController
-  before_action :set_project, only: %i[create destroy new edit]
+  before_action :set_project, only: %i[create destroy new edit assign resolve]
+  before_action :set_bug, only: %i[edit destroy assign resolve]
 
   def create
     authorize Bug
@@ -20,7 +21,6 @@ class BugsController < ApplicationController
   end
 
   def destroy
-    @bug = @project.bugs.find(params[:id])
     authorize @bug
     @bug.destroy
     redirect_to project_path(@project)
@@ -35,14 +35,10 @@ class BugsController < ApplicationController
   end
 
   def edit
-    @bug = @project.bugs.find(params[:id])
     authorize @bug
   end
 
   def assign
-    @project = Project.find(params[:project_id])
-    @bug = @project.bugs.find(params[:id])
-
     @bug.update!(developer_id: current_user.id) if @bug.developer.nil?
 
     respond_to do |format|
@@ -51,9 +47,6 @@ class BugsController < ApplicationController
   end
 
   def resolve
-    @project = Project.find(params[:project_id])
-    @bug = @project.bugs.find(params[:id])
-
     if @bug.category == 'bug' && @bug.status != 'resolved'
       @bug.resolved!
     elsif @bug.category == 'feature' && @bug.status != 'completed'
@@ -69,6 +62,10 @@ class BugsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
+  end
+
+  def set_bug
+    @bug = @project.bugs.find(params[:id])
   end
 
   def bug_params
