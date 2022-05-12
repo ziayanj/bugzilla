@@ -28,5 +28,6 @@ Uploading to Cloudinary
     - api_secret
 
 To set up credentials, run:
-  > run EDITOR=editor rails credentials:edit
-  > (Replac editor with your editor, like nano or vim)
+  > EDITOR=editor rails credentials:edit
+
+  > (Replace editor with your editor, like nano or vim)
