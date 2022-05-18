@@ -2,7 +2,8 @@ class Bug < ApplicationRecord
   enum category: { feature: 0, bug: 1 }
   enum status: { created: 0, started: 1, completed: 2, resolved: 3 }
 
-  validates :title, title: true, on: :create
+  # validates :title, title: true, on: :create
+  validates :title, uniqueness: { scope: :project_id }
   validates :title, :deadline, :category, :status, presence: true
   validate :image_type, if: -> { screenshot.attached? }
 
