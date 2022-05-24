@@ -48,6 +48,7 @@ RSpec.describe 'Bugs', type: :request do
       bug = Bug.create! valid_attributes
       get project_bug_url(@project, bug)
       expect(response).to be_successful
+      expect(response.body).to include('Bug for testing')
     end
   end
 
@@ -63,6 +64,7 @@ RSpec.describe 'Bugs', type: :request do
       bug = Bug.create! valid_attributes
       get edit_project_bug_url(@project, bug)
       expect(response).to be_successful
+      expect(response.body).to include('Bug for testing')
     end
   end
 

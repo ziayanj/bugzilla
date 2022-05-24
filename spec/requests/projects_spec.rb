@@ -6,6 +6,7 @@ RSpec.describe 'Projects', type: :request do
                               email: 'manager@user.com',
                               name: 'manager')
 
+    # Sign in
     post user_session_path, params: {
       user: {
         email: @manager.email, password: @manager.password
@@ -43,6 +44,7 @@ RSpec.describe 'Projects', type: :request do
       project = Project.create! valid_attributes
       get project_url(project)
       expect(response).to be_successful
+      expect(response.body).to include('Test ProjectsController')
     end
   end
 
@@ -58,6 +60,7 @@ RSpec.describe 'Projects', type: :request do
       project = Project.create! valid_attributes
       get edit_project_url(project)
       expect(response).to be_successful
+      expect(response.body).to include('Test ProjectsController')
     end
   end
 
