@@ -1,15 +1,58 @@
-<p>
-  <strong>Title: </strong>
-  <%= @bug.title %>
-</p>
+<main class="container">
+  <p>
+    <strong>Title: </strong>
+    <%= @bug.title %>
+  </p>
 
-<p>
-  <strong>Description: </strong>
-  <%= @bug.description %>
-</p>
+  <p>
+    <strong>Description: </strong>
+    <%= @bug.description %>
+  </p>
 
-<p>
-  <%= link_to 'Delete Bug', [@bug.project, @bug],
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %>
-</p>
+  <p>
+    <strong>Deadline: </strong>
+    <%= @bug.deadline %>
+  </p>
+
+  <p>
+    <strong>Type: </strong>
+    <%= @bug.category.humanize %>
+  </p>
+
+  <p>
+    <strong>Status: </strong>
+    <%= @bug.status.humanize %>
+  </p>
+
+  <p>
+    <% if @bug.screenshot.attached? %>
+      <%= cl_image_tag(@bug.screenshot.key, width: 300, height: 200, crop: :scale) %>
+    <% end %>
+  </p>
+
+  <div>
+    <br />
+      <% if @bug.developer != nil %>
+        <div>Assigned to <%= @bug.developer.name %></div>
+        <% if @bug.developer == current_user && @bug.resolvable %>
+          <%= link_to resolve_project_bug_path(@bug.project, @bug), remote: true do %>
+            <div><button class="btn btn-sm btn-success">Mark Resolved</button></div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% if @bug.project.developers.include? current_user %>
+          <%= link_to assign_project_bug_path(@bug.project, @bug), remote: true do %>
+            <div><button class="btn btn-md btn-secondary">Assign Bug</button></div>
+          <% end %>
+        <% end %>
+      <% end %>
+  </div>
+
+  <p>
+    <% if @bug.creator == current_user %>
+      <br />
+      <%= link_to 'Edit Bug', edit_project_bug_path(@bug.project, @bug), class: "streched-link" %> | 
+      <%= link_to 'Delete Bug', [@bug.project, @bug], method: :delete, data: { confirm: 'Are you sure?' }, class: "streched-link" %>
+    <% end %>
+  </p>
+</main>
