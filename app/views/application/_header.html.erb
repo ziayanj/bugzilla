@@ -1,0 +1,32 @@
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><%= link_to 'Home', root_path, class: "nav-link px-2 text-white" %></li>
+        <% if user_signed_in? && current_user.type == "Manager" %>
+          <li><%= link_to 'New Project', new_project_path, class: "nav-link px-2 text-white" %></li>
+        <% end %>
+      </ul>
+
+      <div class="text-end">
+        <% if user_signed_in? %>
+          Logged in as <span class="px-2  me-3"><%= current_user.email %></span>
+          <%= link_to edit_user_registration_path do %>
+            <button type="button" class="btn btn-outline-light me-2">Edit Profile</button>
+          <% end %>
+          <%= link_to destroy_user_session_path, method: :delete do %>
+            <button type="button" class="btn btn-warning">Log out</button>
+          <% end %>
+        <% else %>
+          <%= link_to new_user_session_path do %>
+            <button type="button" class="btn btn-outline-light me-2">Login</button>
+          <% end %>
+          <%= link_to new_user_registration_path do %>
+            <button type="button" class="btn btn-warning">Sign up</button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>

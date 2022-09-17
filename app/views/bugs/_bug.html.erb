@@ -1,14 +1,29 @@
-<p>
-  <strong>Bug: </strong>
-  <%= bug.title %>
-</p>
-
-<p>
-  <%= link_to 'Details', project_bug_path(bug.project, bug) %>
-</p>
-
-<p>
-  <%= link_to 'Delete Bug', [bug.project, bug],
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %>
-</p>
+<div class="col-md-5">
+  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+    <div class="col p-4 d-flex flex-column position-static">
+      <h3 class="mb-0"><%= bug.title %></h3>
+      <div class="mb-1 text-muted"><%= bug.created_at.strftime("%e %b, %Y") %></div>
+      <p class="card-text mb-auto">Type: <%= bug.category.humanize %></p>
+      <%= link_to 'More details', project_bug_path(bug.project, bug), class: "streched-link" %>
+      <% if bug.creator == current_user %>
+        <%= link_to 'Edit Bug', edit_project_bug_path(bug.project, bug), class: "streched-link" %>
+        <%= link_to 'Delete Bug', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' }, class: "streched-link" %>
+      <% end %>
+      <br />
+      <% if bug.developer != nil %>
+        <div>Assigned to <%= bug.developer.name %></div>
+        <% if bug.developer == current_user && bug.resolvable %>
+          <%= link_to resolve_project_bug_path(bug.project, bug), remote: true do %>
+            <div><button class="btn btn-sm btn-success">Mark Resolved</button></div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% if @project.developers.include? current_user %>
+          <%= link_to assign_project_bug_path(bug.project, bug), remote: true do %>
+            <div><button class="btn btn-md btn-secondary">Assign Bug</button></div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

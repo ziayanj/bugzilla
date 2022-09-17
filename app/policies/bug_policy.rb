@@ -11,6 +11,10 @@ class BugPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.type == 'Qa'
+    record.creator == user
+  end
+
+  def edit?
+    record.creator == user
   end
 end
