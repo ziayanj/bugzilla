@@ -4,7 +4,7 @@ class ProjectPolicy < ApplicationPolicy
       if !user
         scope.all
       elsif user.type == 'Developer'
-        scope.joins(:developers).where("projects_developers.developer_id = #{user.id}")
+        scope.joins(:developers).where(projects_developers: { developer_id: user.id })
       else
         scope.all
       end

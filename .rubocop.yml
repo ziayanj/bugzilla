@@ -8,11 +8,10 @@ AllCops:
   TargetRubyVersion: 2.7
   TargetRailsVersion: 5.2
   Exclude:
-    - 'db/schema.rb'
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
     - 'bin/**/*'
-    - 'db/migrate/*'
+    - 'db/**/*'
     - 'config/**/*'
 
 Layout/LineLength:
@@ -26,6 +25,15 @@ Style/FrozenStringLiteralComment:
 
 Metrics/AbcSize:
   Max: 23
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
 
 # Metrics/BlockLength:
 #   Exclude:

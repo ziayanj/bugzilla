@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy add_user remove_user]
+  before_action :set_user, only: %i[add_user remove_user]
   before_action :authenticate_user!, except: [:index]
 
   # GET /projects or /projects.json
@@ -17,7 +18,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
-    authorize Project.find(params[:id])
+    authorize @project
   end
 
   # POST /projects or /projects.json
@@ -52,7 +53,7 @@ class ProjectsController < ApplicationController
 
   # DELETE /projects/1 or /projects/1.json
   def destroy
-    authorize Project.find(params[:id])
+    authorize @project
     @project.destroy
 
     respond_to do |format|
@@ -63,13 +64,12 @@ class ProjectsController < ApplicationController
 
   def add_user
     authorize @project
-    user = User.find(params[:user])
 
-    case user.type
+    case @user.type
     when 'Developer'
-      @project.developers << user
+      @project.developers << @user
     when 'Qa'
-      @project.qas << user
+      @project.qas << @user
     end
 
     respond_to do |format|
@@ -79,13 +79,12 @@ class ProjectsController < ApplicationController
 
   def remove_user
     authorize @project
-    user = User.find(params[:user])
 
-    case user.type
+    case @user.type
     when 'Developer'
-      @project.developers.destroy(user)
+      @project.developers.destroy(@user)
     when 'Qa'
-      @project.qas.destroy(user)
+      @project.qas.destroy(@user)
     end
 
     respond_to do |format|
@@ -97,7 +96,20 @@ class ProjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    @project = Project.find(params[:id])
+    @project = Project.find_by(id: params[:id])
+    check_invalid(@project)
+  end
+
+  def set_user
+    @user = User.find(params[:user])
+    check_invalid(@user)
+  end
+
+  def check_invalid(object)
+    return unless object.nil?
+
+    redirect_to root_url
+    flash[:alert] = 'Not found.'
   end
 
   # Only allow a list of trusted parameters through.
