@@ -1,0 +1,48 @@
+require: 
+  - rubocop-rails
+
+AllCops:
+  NewCops: disable
+  
+  # Exclude auto-generated files by Rails
+  TargetRubyVersion: 2.7
+  TargetRailsVersion: 5.2
+  Exclude:
+    - 'node_modules/**/*'
+    - 'vendor/bundle/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+
+Layout/LineLength:
+  Max: 120
+  
+Metrics/MethodLength:
+  Max: 23
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 23
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+# Metrics/BlockLength:
+#   Exclude:
+#     - config/**/*
+#     - spec/**/*
+
+# Lint/AmbiguousBlockAssociation:
+#   Exclude:
+#     - spec/**/*
+
+Style/Documentation:
+  Enabled: false

@@ -1,24 +1,33 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby version: 2.7.5
 
-Things you may want to cover:
+Rails version: 5.2
 
-* Ruby version
+Database: PostgreSQL
 
-* System dependencies
+Schema:
 
-* Configuration
+    Run db:migrate to create the schema file
 
-* Database creation
+Database:
+  
+    Run db:create to create the development/test databases.
+    Run db:seed to seed the databases with initial data.
 
-* Database initialization
 
-* How to run the test suite
+## Usage: 
+  > bin/rails server
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+Uploading to Cloudinary
+    
+    Set up these credentials for Cloudinary:
+    - cloud_name
+    - api_key
+    - api_secret
 
-* ...
+To set up credentials, run:
+  > EDITOR=editor rails credentials:edit
+
+  > (Replace editor with your editor, like nano or vim)

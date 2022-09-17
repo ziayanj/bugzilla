@@ -1,0 +1,10 @@
+<tr>
+  <td><%= remove.name %> </td>
+  <td><%= remove.email %></td>
+  <td><%= remove.type %></td>
+  <td>
+    <%= link_to remove_user_project_path(@project, user: remove), remote: true do %>
+      <button>Remove from Project</button>
+    <% end %>
+  </td>
+</tr>
