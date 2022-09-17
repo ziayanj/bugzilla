@@ -5,7 +5,7 @@ class Project < ApplicationRecord
   has_and_belongs_to_many :qas, join_table: 'projects_qas'
 
   validates :title, presence: true
-  validates :title, uniqueness: true
+  validates :title, uniqueness: { case_sensitive: false }
 
   def addable_users(current_user)
     final_users = []

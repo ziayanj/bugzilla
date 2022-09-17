@@ -96,11 +96,20 @@ class ProjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    @project = Project.find(params[:id])
+    @project = Project.find_by(id: params[:id])
+    check_invalid(@project)
   end
 
   def set_user
     @user = User.find(params[:user])
+    check_invalid(@user)
+  end
+
+  def check_invalid(object)
+    return unless object.nil?
+
+    redirect_to root_url
+    flash[:alert] = 'Not found.'
   end
 
   # Only allow a list of trusted parameters through.

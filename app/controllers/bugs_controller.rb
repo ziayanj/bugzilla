@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
-  before_action :set_project, only: %i[create destroy new edit assign resolve]
-  before_action :set_bug, only: %i[edit destroy assign resolve]
+  before_action :set_project, only: %i[create destroy new edit show assign resolve]
+  before_action :set_bug, only: %i[edit show destroy assign resolve]
 
   def create
     authorize Bug
@@ -26,9 +26,7 @@ class BugsController < ApplicationController
     redirect_to project_path(@project)
   end
 
-  def show
-    @bug = Bug.find(params[:id])
-  end
+  def show; end
 
   def new
     @bug = Bug.new
@@ -61,11 +59,20 @@ class BugsController < ApplicationController
   private
 
   def set_project
-    @project = Project.find(params[:project_id])
+    @project = Project.find_by(id: params[:project_id])
+    check_invalid(@project, root_url)
   end
 
   def set_bug
-    @bug = @project.bugs.find(params[:id])
+    @bug = @project.bugs.find_by(id: params[:id])
+    check_invalid(@bug, project_url(@project))
+  end
+
+  def check_invalid(object, redirect_url)
+    return unless object.nil?
+
+    redirect_to redirect_url
+    flash[:alert] = 'Not found.'
   end
 
   def bug_params
