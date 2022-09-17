@@ -1,0 +1,38 @@
+<%= form_with(model: [ project, bug ], local: true) do |form| %>
+  <%= render "validation", object: bug %>
+
+  <p>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </p>
+  <p>
+    <%= form.label :description %>
+    <%= form.text_area :description, size: '20x8', class: "form-control" %>
+  </p>
+  <p>
+    <%= form.label :deadline %>:
+    <%= form.datetime_select :deadline, class: "form-control" %>
+  </p>
+
+  <div class="no-scaffold">
+    Type:
+    <%= form.radio_button :category, :feature %> 
+    <%= form.label :category, 'Feature', value: :feature %>
+    <%= form.radio_button :category, :bug %>
+    <%= form.label :category, 'Bug', value: :bug %>
+  </div><br />
+
+  <p>
+    <%= form.label :status %>
+    <%= form.select :status, Bug.statuses.map { |key, value| [key.humanize, key] } %>
+  </p>
+  
+  <p>
+    <%= form.label :screenshot %>
+    <%= form.file_field :screenshot, direct_upload: true %>
+  </p><br />
+   
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-md btn-dark" %>
+  </div>
+<% end %>

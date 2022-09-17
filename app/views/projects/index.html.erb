@@ -1,0 +1,26 @@
+<main class="container">
+  <h1>Projects</h1>
+
+  <div class="row mb-2">
+    <% @projects.each do |project| %>
+      <div class="col-md-5">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h3 class="mb-0"><%= project.title %></h3>
+            <div class="mb-1 text-muted"><%= project.created_at.strftime("%e %b, %Y") %></div>
+            <%= link_to 'More details', project, class: "streched-link" %>
+            <% if project.manager == current_user %>
+              <%= link_to 'Edit', edit_project_path(project), class: "streched-link" %>
+              <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, class: "streched-link" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if user_signed_in? && current_user.type == "Manager" %>
+    <%= link_to 'New Project', new_project_path%>
+  <% end %>
+</main>
+

@@ -1,0 +1,17 @@
+<%= form_with(model: project, local: true) do |form| %>
+  <%= render "validation", object: project %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, size: '30x8', class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-md btn-dark" %>
+  </div>
+<% end %>

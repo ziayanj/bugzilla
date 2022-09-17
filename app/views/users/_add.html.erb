@@ -1,0 +1,10 @@
+<tr>
+  <td><%= add.name %> </td>
+  <td><%= add.email %></td>
+  <td><%= add.type %></td>
+  <td>
+    <%= link_to add_user_project_path(@project, user: add), remote: true do %>
+      <button>Add to Project</button>
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,9 @@
+<div class="container">
+  <main class="form-general">
+    <h1>New Bug</h1>
+
+    <%= render 'form', bug: @bug, project: @project %>
+
+    <%= link_to 'Back', project_path(@project) %>
+  </main>
+</div>
